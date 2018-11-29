@@ -10,6 +10,7 @@ import asana
 import datetime
 from zoomus import ZoomClient
 import numpy
+from collections import Counter
 
 #globals
 global asana_key
@@ -58,12 +59,12 @@ if __name__ == "__main__":
       print('creating file to write your data to~')
       time.sleep(2)
       project_name = project['name']
-      with open('%s_%s_data.csv' % (project_name,run_date), mode='w', newline='') as data_file:
+      with open('%s_%s_tixdata.csv' % (project_name,run_date), mode='w', newline='') as data_file:
           data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
           print('')
           print('writing initial row~')
           time.sleep(2)
-          data_writer.writerow(['Task','Notes','Created: Date','Responded: Date','Completed: Date','Days To Complete','Completed By'])
+          data_writer.writerow(['TASK','NOTES','CREATED: DATE','RESPONDED: DATE','COMPLETED: DATE','DAYS TO COMPLETE','COMPLETED BY'])
           print('')
           print('beginning task iteration sequence~')
           time.sleep(2)
@@ -73,7 +74,8 @@ if __name__ == "__main__":
           print('brace yourself~')
           n = 0
           days_to_complete_data = []
-          #longest_task = datetime.timedelta(-999999999)
+          completed_by_list = []
+          longest_task = 0
           for task in tasks:
               task_data = get("tasks/%s" % task['id'])
               task_name = task['name']
@@ -110,6 +112,8 @@ if __name__ == "__main__":
                           completed_date = (completed_date_temp[:10] + '') if len(completed_date_temp) > 10 else completed_date_temp
                           completed_time = ('' + completed_date_temp[10:]) if len(completed_date_temp) > 10 else completed_date_temp
                           completed_by = story['created_by']['name']
+                          completed_by_list.append(completed_by)
+
                           ##stories_output.append(completed_date)
                           ##stories_output.append(completed_by)
                           #else:
@@ -135,16 +139,26 @@ if __name__ == "__main__":
                       added_date_day =  added_date[8:10]
                       added_date_day = int(added_date_day)
                       utc_added = datetime.date(added_date_year, added_date_month, added_date_day)
+                      if 'none' not in responded_date:
+                          responded_date_year = responded_date[0:4]
+                          responded_date_year = int(responded_date_year)
+                          responded_date_month = responded_date[5:7]
+                          responded_date_month = int(responded_date_month)
+                          responded_date_day = responded_date[8:10]
+                          responded_date_day = int(responded_date_day)
+                          utc_responded = datetime.date(responded_date_year, responded_date_month, responded_date_day)
+                          response_time = utc_responded - utc_added
+                          response_time = response_time.total_seconds()
+                          response_time = (((response_time / 60) / 60) / 24)
                       #print(utc_added)
                       #print(utc_completed)
                       days_to_complete = utc_completed - utc_added
-                      #if days_to_complete > longest_task:
-                        #longest_task = days_to_complete
                       days_to_complete = days_to_complete.total_seconds()
                       days_to_complete = (((days_to_complete / 60) / 60) / 24)
+                      if int(days_to_complete) > int(longest_task):
+                        longest_task = int(days_to_complete)
 
                       #writeout
-                      #longest_task = (((int(longest_task.total_seconds()) / 60) / 60) / 24)
                       print('')
                       print("writing data to table~")
                       stories_output = [task_name, task_notes, added_date, responded_date, completed_date, days_to_complete, completed_by]
@@ -153,10 +167,17 @@ if __name__ == "__main__":
                       data_writer.writerows([stories_output])
                       days_to_complete_data.append(days_to_complete)
 
+          print('')
+          print('quick maths, one moment plz~')
+          time.sleep(2)
           average_response = numpy.average(days_to_complete_data)
+          top_closer = Counter(completed_by_list)
+          #top_closer = top_closer[2:]
+          #top_closer = top_closer[:9]
           data_writer.writerow([])
           data_writer.writerow(['','','','','AVERAGE RESPONSE TIME:',average_response])
-          #data_writer.writerow(['','','','','LONGEST TASK TIME:',average_response])
+          data_writer.writerow(['','','','','TOP TICKET CLOSERS: ',top_closer])
+          data_writer.writerow(['','','','','LONGEST TASK TIME:',longest_task])
           print('')
           print('all done~')
           ran = ['plz praise me (`･ω･´)', 'i accept headpats as thank you ヽ(´ー｀)ノ', 'uwu~', 'remember to drink water today ʕᵔᴥᵔʔ!', 'i wuv u', 'whats your favorite anime?','please come hang out again soon~ (づ｡◕‿‿◕｡)づ', '御粗末! ヾ(-_- )ゞ', 'What a good workout! ᕙ(⇀‸↼‶)ᕗ']
