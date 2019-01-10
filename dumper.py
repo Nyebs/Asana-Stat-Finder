@@ -138,7 +138,7 @@ if __name__ == "__main__":
               task_name = task['name']
               #print(task_name)
               task_notes = get("tasks/%s" % task['id'])['data']
-              task_notes = tasknotes.split('b"',1)[1]
+              task_notes = task_notes.split('b"',1)[1]
               #print(task_notes)
               #task_urgency = task['custom_fields']
               #task_urgency = get("tasks/%s/project/%s" % (task['id'], project['id']))['custom_fields']
