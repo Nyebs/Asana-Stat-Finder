@@ -138,13 +138,10 @@ if __name__ == "__main__":
               task_name = task['name']
               #print(task_name)
               task_notes = get("tasks/%s" % task['id'])['data']
-              task_notes = task_notes.split('b"',1)[1]
-              #print(task_notes)
-              #task_urgency = task['custom_fields']
-              #task_urgency = get("tasks/%s/project/%s" % (task['id'], project['id']))['custom_fields']
               json.dump(task_data, out, indent=True)
               task_notes = task_notes['notes']
               task_notes = str(task_notes).encode('utf-8')
+              task_notes = task_notes.split('b"',1)[1]
               task_completed = get("tasks/%s" % task['id'])['data']
               stories = get("tasks/%s/stories" % task['id'])['data']
               ##task_completed = get('projects')
