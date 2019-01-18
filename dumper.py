@@ -99,7 +99,11 @@ if __name__ == "__main__":
       print('')
       time.sleep(2)
       project_name = project['name']
-      with open('%s_%s_tixdata.csv' % (project_name,run_date), mode='w', newline='') as data_file:
+      if custom_date_yn == "y":
+          time_frame = custom_month
+      elif custom_date_yn == "n":
+          time_frame = "Full"
+      with open('%s_%s_%s_tixdata.csv' % (project_name,run_date,time_frame), mode='w', newline='') as data_file:
           data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
           print('')
           print('--------------------')
@@ -107,7 +111,7 @@ if __name__ == "__main__":
           print('--------------------')
           print('')
           time.sleep(2)
-          data_writer.writerow(['TASK','NOTES','CREATED: DATE','RESPONDED: DATE','COMPLETED: DATE','DAYS TO COMPLETE','COMPLETED BY','URGENCY'])
+          data_writer.writerow(['TASK','NOTES','CREATED: DATE','RESPONDED: DATE','COMPLETED: DATE','DAYS TO RESPOND:', 'DAYS TO COMPLETE','COMPLETED BY','URGENCY'])
           print('')
           print('--------------------')
           print('beginning task iteration sequence~')
@@ -159,6 +163,7 @@ if __name__ == "__main__":
               print('')
               ##only complete tasks
               if True == task_completed['completed']:
+                  response_time = None
                   for story in stories:
                       story['task_id'] = task['id']
                       if 'added_to_project' in str(story):
@@ -273,7 +278,7 @@ if __name__ == "__main__":
                       print('')
                       print('--------------------')
                       print("writing data to table~")
-                      stories_output = [task_name, task_notes, added_date, responded_date, completed_date, days_to_complete, completed_by, urgency_ofit]
+                      stories_output = [task_name, task_notes, added_date, responded_date, completed_date, response_time, days_to_complete, completed_by, urgency_ofit]
                       print('')
                       print('writing table to file~')
                       print('--------------------')
