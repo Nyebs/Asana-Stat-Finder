@@ -24,7 +24,7 @@ global run_date
 #address of the api
 asana_api = "https://app.asana.com/api/1.0"
 zoom_api = "https://api.zoom.us/v2"
-asana_key = "0/1d6bb7b9f13d37e61cb1e22a15a9182d"
+asana_key = "lol"
 
 def get(path, raw=False, **params):
   res = requests.get("%s/%s" % (asana_api, path), auth=(asana_key, ""), params=params)
