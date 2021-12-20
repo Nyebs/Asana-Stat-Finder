@@ -24,7 +24,7 @@ global run_date
 #address of the api
 asana_api = "https://app.asana.com/api/1.0"
 zoom_api = "https://api.zoom.us/v2"
-asana_key = "lol"
+asana_key = "FILLMEIN"
 
 def get(path, raw=False, **params):
   res = requests.get("%s/%s" % (asana_api, path), auth=(asana_key, ""), params=params)
@@ -48,7 +48,7 @@ if __name__ == "__main__":
           custom_year = int(input('year: '))
           custom_month = int(input('month (as number): '))
       else:
-          asana_key = "0/1d6bb7b9f13d37e61cb1e22a15a9182d"
+          asana_key = "FILLMEIN"
       print('')
       print('--------------------')
       print('available projects: ')
@@ -333,9 +333,9 @@ if __name__ == "__main__":
           print('')
 
     def zoom_grabby():
-        zoom_key = 'DA_JxFR_Szy3qJmBzii8HA'
-        zoom_secret = 'bCq9IWruug9RkBJ5fRhXUOT6wctJn6pu'
-        zoom_token = 'cVtWHKu-QyOXA7hnGw29ng'
+        zoom_key = 'FILLMEIN'
+        zoom_secret = 'FILLMEIN'
+        zoom_token = 'FILLMEIN'
         #DA_JxFR_Szy3qJmBzii8HA
         #bCq9IWruug9RkBJ5fRhXUOT6wctJn6pu
         def getz(path, raw=False, **params):
@@ -391,7 +391,7 @@ if __name__ == "__main__":
       else:
           project_input = sys.argv[1]
           #api key
-          asana_key = "0/1d6bb7b9f13d37e61cb1e22a15a9182d"
+          asana_key = "FILLMEIN"
           asana_grabby()
 
     #if user did not enter project number, ask for one
