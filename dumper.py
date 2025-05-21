@@ -67,15 +67,15 @@ if __name__ == "__main__":
           for proj in project_list:
               print(proj['name'])
       if 'hr' in project_input:
-          project_input = '831207095409567'
+          project_input = 'FILLMEIN'
       elif 'it' in project_input:
-          project_input = '795311327897887'
+          project_input = 'FILLMEIN'
       elif 'office' in project_input:
-          project_input = '806230840501006'
+          project_input = 'FILLMEIN'
       elif 'sm-3rd party' in project_input:
-          project_input = '908686419223733'
+          project_input = 'FILLMEIN'
       elif 'sm-release' in project_input:
-          project_input = '883271964882834'
+          project_input = 'FILLMEIN'
       elif 'custom' in project_input:
           project_input = input('enter project id number~: ')
       elif 'print' or 'print um' in project_input:
